@@ -5,71 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alhashimia — لوحة المنشورات</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    body, html {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      display: flex; justify-content: center; align-items: center;
       background-color: #000;
       background-image: radial-gradient(circle at center, rgba(0,153,255,0.25) 0%, rgba(0,153,255,0.15) 20%, rgba(0,153,255,0.05) 40%, transparent 70%);
       color: #fff;
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
     }
-    body > .container-wrapper {
+    #mainContainer {
       width: 1200px;
       height: 800px;
-      background: transparent;
+      background: #121212;
+      box-shadow: 0 0 15px #00b0ffaa;
+      border-radius: 12px;
+      overflow: auto;
       display: flex;
       flex-direction: column;
-      overflow: auto;
-    }
-    body > .container-wrapper::-webkit-scrollbar {
-      width: 8px;
-    }
-    body > .container-wrapper::-webkit-scrollbar-thumb {
-      background-color: rgba(0,176,255,0.3);
-      border-radius: 4px;
     }
     header {
       background: #1f2428;
       padding: 20px 0;
       text-align: center;
-      color: #fff;
-      position: relative;
-      flex-shrink: 0;
-    }
-    header h1 {
-      font-size: 36px;
-      margin: 0;
-      font-weight: bold;
       color: #00b0ff;
+      font-size: 36px;
+      font-weight: bold;
       text-shadow: 0 0 12px rgba(0,176,255,0.35);
+      position: relative;
     }
     #toggleEditBtn {
       position: absolute;
       top: 20px;
       left: 20px;
-      background: #0099ff;
-      border: none;
-      color: #fff;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0,153,255,0.08);
-      font-size: 14px;
+      background:#0099ff;
+      border:none;
+      color:#fff;
+      padding:8px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,153,255,0.08);
+      font-size:14px;
     }
     #toggleEditBtn:hover {
-      background: #007acc;
+      background:#007acc;
     }
     .container {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 0 12px;
-      flex-grow: 1;
+      flex: 1;
+      padding: 12px 24px 24px;
       overflow-y: auto;
     }
     .top-actions {
@@ -126,6 +109,7 @@
       font-size: 14px;
       background: rgba(255,255,255,0.02);
       color: #fff;
+      resize: vertical;
     }
     .file-input-wrapper {
       position: relative;
@@ -182,10 +166,15 @@
       padding: 16px;
       margin-bottom: 16px;
       border: 1px solid rgba(255,255,255,0.03);
+      position: relative;
+    }
+    .post h3 {
+      margin-top: 0;
     }
     .post img, .post video {
       max-width: 100%;
       border-radius: 8px;
+      margin-top: 10px;
     }
     .interactions {
       margin-top: 10px;
@@ -205,20 +194,48 @@
     }
     .comments {
       margin-top: 10px;
+      display: none;
     }
-    .comment {
+    .comments input[type=text] {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: none;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 6px;
+      box-sizing: border-box;
+    }
+    .comment-list .comment {
       background: rgba(255,255,255,0.02);
       padding: 6px;
       border-radius: 6px;
       margin-bottom: 4px;
       font-size: 14px;
+      word-break: break-word;
     }
     footer {
-      margin-top: 20px;
+      margin-top: 12px;
       text-align: center;
       font-size: 14px;
       color: #ccc;
-      flex-shrink: 0;
+      padding-bottom: 10px;
+    }
+    /* أزرار تعديل وحذف صغيرة */
+    button.edit-post-btn, button.delete-post-btn, button.edit-comment-btn, button.delete-comment-btn {
+      margin-left: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      background: #0099ff;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      padding: 4px 8px;
+      transition: background-color 0.3s ease;
+    }
+    button.edit-post-btn:hover, button.delete-post-btn:hover, button.edit-comment-btn:hover, button.delete-comment-btn:hover {
+      background: #007acc;
     }
     #loginModal {
       display: none;
@@ -264,6 +281,7 @@
       background: rgba(255,255,255,0.05);
       color: #fff;
       font-size: 14px;
+      box-sizing: border-box;
     }
     #loginModalContent button {
       width: 100%;
@@ -290,9 +308,9 @@
   </style>
 </head>
 <body>
-  <div class="container-wrapper">
+  <div id="mainContainer">
     <header>
-      <h1>Alhashimia</h1>
+      Alhashimia
       <button id="toggleEditBtn" onclick="toggleEdit()">تبديل وضع التحرير</button>
     </header>
     <div class="container">
@@ -300,17 +318,21 @@
         <button class="btn facebook" onclick="window.open('https://www.facebook.com/share/1CKLUMEt6q/','_blank')">فيسبوك</button>
         <button class="btn instagram" onclick="window.open('https://www.instagram.com/a1hashmya?igsh=MTBsNGlyb201bTkxeQ%3D%3D','_blank')">إنستغرام</button>
       </div>
+      
       <div class="new-post" id="editor" style="display:none;">
         <h3>إنشاء منشور جديد</h3>
         <input type="text" id="title" placeholder="عنوان المنشور" />
         <textarea rows="4" id="description" placeholder="اكتب وصف المنشور..."></textarea>
+        
         <div class="file-input-wrapper">
           <button type="button" onclick="document.getElementById('media').click()">اختر ملفا</button>
           <input type="file" id="media" accept="image/*,video/*" />
         </div>
         <div class="selected-file" id="selectedFileName"></div>
+        
         <button class="btn" onclick="addPost()">نشر</button>
       </div>
+      
       <div id="posts"></div>
     </div>
     <footer>
@@ -331,6 +353,7 @@
 
   <script>
     let isEditMode = false;
+
     const fileInput = document.getElementById('media');
     const selectedFileName = document.getElementById('selectedFileName');
     const editor = document.getElementById('editor');
@@ -339,6 +362,7 @@
     const loginError = document.getElementById('loginError');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
+    const postsContainer = document.getElementById('posts');
 
     fileInput.addEventListener('change', () => {
       if(fileInput.files.length > 0){
@@ -353,10 +377,8 @@
         isEditMode = true;
         editor.style.display = 'block';
         toggleBtn.textContent = 'إغلاق وضع التحرير';
-        loadPosts();
-      } else {
-        loadPosts();
       }
+      loadPosts();
     };
 
     function showLoginModal(){
@@ -368,9 +390,9 @@
 
     function checkLogin(){
       const username = usernameInput.value.trim();
-      const password = passwordInput.value;
+      const password = passwordInput.value.trim();
 
-      if(username.toLowerCase() === 'alhashimia' && password === 'wahu alealiu aleazim 4'){
+      if(username === 'Alhashimia' && password === 'wahu alealiu aleazim 4'){
         isEditMode = true;
         editor.style.display = 'block';
         toggleBtn.textContent = 'إغلاق وضع التحرير';
@@ -402,7 +424,7 @@
 
     function addPost(){
       if(!isEditMode) return alert('يجب تفعيل وضع التحرير أولاً');
-
+      
       const title = document.getElementById('title').value.trim();
       const desc = document.getElementById('description').value.trim();
       const file = fileInput.files[0];
@@ -414,24 +436,24 @@
 
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
 
-      // حفظ الملف محلياً كـ URL مؤقت (سيكون غير مستمر بين جلسات)
-      let mediaUrl = '';
-      if(file){
-        mediaUrl = URL.createObjectURL(file);
-      }
-
-      posts.unshift({
-        title: title,
-        desc: desc,
-        media: mediaUrl,
-        mediaType: file ? file.type : '',
+      const newPost = {
+        title,
+        desc,
+        media: null,
+        mediaType: null,
         likes: 0,
         comments: []
-      });
+      };
 
+      if(file){
+        const url = URL.createObjectURL(file);
+        newPost.media = url;
+        newPost.mediaType = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : null;
+      }
+
+      posts.unshift(newPost);
       localStorage.setItem('posts', JSON.stringify(posts));
 
-      // مسح الحقول
       document.getElementById('title').value = '';
       document.getElementById('description').value = '';
       fileInput.value = '';
@@ -441,9 +463,7 @@
     }
 
     function loadPosts(){
-      const postsContainer = document.getElementById('posts');
       postsContainer.innerHTML = '';
-
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
 
       posts.forEach((post, index) => {
@@ -454,9 +474,9 @@
         if(post.desc) postDiv.innerHTML += `<p>${escapeHtml(post.desc)}</p>`;
 
         if(post.media){
-          if(post.mediaType.startsWith('image/')){
-            postDiv.innerHTML += `<img src="${post.media}" />`;
-          } else if(post.mediaType.startsWith('video/')){
+          if(post.mediaType === 'image'){
+            postDiv.innerHTML += `<img src="${post.media}" alt="media" />`;
+          } else if(post.mediaType === 'video'){
             postDiv.innerHTML += `<video controls src="${post.media}"></video>`;
           }
         }
@@ -471,72 +491,57 @@
 
         const commentsDiv = document.createElement('div');
         commentsDiv.className = 'comments';
+
         commentsDiv.style.display = 'none';
+        commentsDiv.innerHTML = `
+          <input type='text' placeholder='أضف تعليق...' data-postid='${index}' onkeydown="if(event.key==='Enter'){addComment(this)}" />
+          <div class='comment-list'></div>
+        `;
 
-        const commentInput = document.createElement('input');
-        commentInput.type = 'text';
-        commentInput.placeholder = 'أضف تعليق...';
-        commentInput.setAttribute('data-postid', index);
-        commentInput.onkeydown = function(e){
-          if(e.key === 'Enter'){
-            addComment(this);
-          }
-        };
-
-        const commentList = document.createElement('div');
-        commentList.className = 'comment-list';
-
+        // عرض التعليقات مع اسم صاحب التعليق
+        const commentList = commentsDiv.querySelector('.comment-list');
         post.comments.forEach((cmt, cIndex) => {
           const cmtDiv = document.createElement('div');
           cmtDiv.className = 'comment';
-          cmtDiv.textContent = cmt.text;
 
+          // اسم صاحب التعليق مع استثناء المحرر
+          let commenterName = cmt.commenter || 'مجهول';
+          if(commenterName.toLowerCase().includes('alhashimia')) commenterName = 'Alhashimia';
+
+          cmtDiv.innerHTML = `<strong>${escapeHtml(commenterName)}:</strong> ${escapeHtml(cmt.text)}`;
+
+          // أزرار تعديل وحذف للتعليقات فقط في وضع التحرير
           if(isEditMode){
-            // زر تعديل وحذف التعليق
-            const editBtn = document.createElement('button');
-            editBtn.textContent = 'تعديل';
-            editBtn.style.marginLeft = '6px';
-            editBtn.style.fontSize = '12px';
-            editBtn.style.cursor = 'pointer';
-            editBtn.onclick = () => editComment(index, cIndex);
+            const editCmtBtn = document.createElement('button');
+            editCmtBtn.className = 'edit-comment-btn';
+            editCmtBtn.textContent = 'تعديل';
+            editCmtBtn.onclick = () => editComment(index, cIndex);
+            cmtDiv.appendChild(editCmtBtn);
 
-            const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'حذف';
-            deleteBtn.style.marginLeft = '6px';
-            deleteBtn.style.fontSize = '12px';
-            deleteBtn.style.cursor = 'pointer';
-            deleteBtn.onclick = () => deleteComment(index, cIndex);
-
-            cmtDiv.appendChild(editBtn);
-            cmtDiv.appendChild(deleteBtn);
+            const delCmtBtn = document.createElement('button');
+            delCmtBtn.className = 'delete-comment-btn';
+            delCmtBtn.textContent = 'حذف';
+            delCmtBtn.onclick = () => deleteComment(index, cIndex);
+            cmtDiv.appendChild(delCmtBtn);
           }
 
           commentList.appendChild(cmtDiv);
         });
 
-        commentsDiv.appendChild(commentInput);
-        commentsDiv.appendChild(commentList);
-
         postDiv.appendChild(commentsDiv);
 
+        // أزرار تعديل وحذف المنشور في وضع التحرير
         if(isEditMode){
-          // أزرار تعديل وحذف المنشور
           const editPostBtn = document.createElement('button');
+          editPostBtn.className = 'edit-post-btn';
           editPostBtn.textContent = 'تعديل المنشور';
-          editPostBtn.style.marginTop = '10px';
-          editPostBtn.style.marginLeft = '10px';
-          editPostBtn.style.padding = '6px 12px';
-          editPostBtn.style.cursor = 'pointer';
           editPostBtn.onclick = () => editPost(index);
+          postDiv.appendChild(editPostBtn);
 
           const deletePostBtn = document.createElement('button');
+          deletePostBtn.className = 'delete-post-btn';
           deletePostBtn.textContent = 'حذف المنشور';
-          deletePostBtn.style.marginTop = '10px';
-          deletePostBtn.style.padding = '6px 12px';
-          deletePostBtn.style.cursor = 'pointer';
           deletePostBtn.onclick = () => deletePost(index);
-
-          postDiv.appendChild(editPostBtn);
           postDiv.appendChild(deletePostBtn);
         }
 
@@ -546,18 +551,15 @@
 
     function toggleLike(btn, postIndex){
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const countSpan = btn.querySelector('.like-count');
-      let count = posts[postIndex].likes;
       if(btn.classList.contains('liked')){
         btn.classList.remove('liked');
-        count--;
+        posts[postIndex].likes = Math.max(0, posts[postIndex].likes - 1);
       } else {
         btn.classList.add('liked');
-        count++;
+        posts[postIndex].likes++;
       }
-      posts[postIndex].likes = count;
       localStorage.setItem('posts', JSON.stringify(posts));
-      countSpan.textContent = count;
+      loadPosts();
     }
 
     function toggleCommentBox(btn){
@@ -565,74 +567,88 @@
       commentsDiv.style.display = commentsDiv.style.display === 'none' ? 'block' : 'none';
     }
 
+    // إضافة تعليق مع طلب البريد
     function addComment(input){
       const text = input.value.trim();
       if(!text) return;
 
+      let commenter = prompt("أدخل بريد الجيميل الخاص بك ليظهر مع التعليق:");
+      if(!commenter) commenter = "مجهول";
+
+      if(commenter.toLowerCase().includes("alhashimia")){
+        commenter = "Alhashimia";
+      }
+
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const postIndex = parseInt(input.getAttribute('data-postid'));
 
-      posts[postIndex].comments.push({ text });
+      posts[postIndex].comments.push({ text, commenter });
 
       localStorage.setItem('posts', JSON.stringify(posts));
       loadPosts();
     }
 
-    function editPost(postIndex){
+    // تحرير المنشور
+    function editPost(index){
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const post = posts[postIndex];
+      const post = posts[index];
 
-      const newTitle = prompt('تعديل عنوان المنشور:', post.title);
-      if(newTitle === null) return;
+      const newTitle = prompt("عدل عنوان المنشور:", post.title || '');
+      if(newTitle === null) return; // إلغاء
+      const newDesc = prompt("عدل وصف المنشور:", post.desc || '');
+      if(newDesc === null) return; // إلغاء
 
-      const newDesc = prompt('تعديل وصف المنشور:', post.desc);
-      if(newDesc === null) return;
-
-      posts[postIndex].title = newTitle.trim();
-      posts[postIndex].desc = newDesc.trim();
+      posts[index].title = newTitle.trim();
+      posts[index].desc = newDesc.trim();
 
       localStorage.setItem('posts', JSON.stringify(posts));
       loadPosts();
     }
 
-    function deletePost(postIndex){
-      if(!confirm('هل أنت متأكد من حذف هذا المنشور؟')) return;
-      let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      posts.splice(postIndex, 1);
-      localStorage.setItem('posts', JSON.stringify(posts));
-      loadPosts();
+    // حذف المنشور
+    function deletePost(index){
+      if(confirm("هل أنت متأكد من حذف هذا المنشور؟")){
+        let posts = JSON.parse(localStorage.getItem('posts') || '[]');
+        posts.splice(index,1);
+        localStorage.setItem('posts', JSON.stringify(posts));
+        loadPosts();
+      }
     }
 
+    // تحرير التعليق
     function editComment(postIndex, commentIndex){
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const comment = posts[postIndex].comments[commentIndex];
 
-      const newText = prompt('تعديل التعليق:', comment.text);
-      if(newText === null) return;
+      const newText = prompt("عدل تعليقك:", comment.text);
+      if(newText === null) return; // إلغاء
 
       posts[postIndex].comments[commentIndex].text = newText.trim();
+
       localStorage.setItem('posts', JSON.stringify(posts));
       loadPosts();
     }
 
+    // حذف التعليق
     function deleteComment(postIndex, commentIndex){
-      if(!confirm('هل أنت متأكد من حذف هذا التعليق؟')) return;
-      let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      posts[postIndex].comments.splice(commentIndex, 1);
-      localStorage.setItem('posts', JSON.stringify(posts));
-      loadPosts();
+      if(confirm("هل أنت متأكد من حذف هذا التعليق؟")){
+        let posts = JSON.parse(localStorage.getItem('posts') || '[]');
+        posts[postIndex].comments.splice(commentIndex,1);
+        localStorage.setItem('posts', JSON.stringify(posts));
+        loadPosts();
+      }
     }
 
+    // دالة لحماية النص من XSS
     function escapeHtml(text) {
-      return text.replace(/[&<>"']/g, function(m) {
-        return {
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#39;'
-        }[m];
-      });
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
   </script>
 </body>
