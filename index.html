@@ -2,37 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Alhashimia — لوحة المنشورات</title>
   <style>
-    body, html {
-      margin: 0; padding: 0;
-      width: 100vw; height: 100vh;
-      display: flex; justify-content: center; align-items: center;
-      background-color: #000;
+    body{
+      margin:0;
+      font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+      background-color:#000;
       background-image: radial-gradient(circle at center, rgba(0,153,255,0.25) 0%, rgba(0,153,255,0.15) 20%, rgba(0,153,255,0.05) 40%, transparent 70%);
-      color: #fff;
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background-size:cover;
+      background-repeat:no-repeat;
+      background-attachment:fixed;
+      color:#fff;
+      min-height:100vh;
+      max-width:1200px;
+      width:100%;
+      margin-left:auto;
+      margin-right:auto;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
-    #mainContainer {
-      width: 1200px;
-      height: 800px;
-      background: #121212;
-      box-shadow: 0 0 15px #00b0ffaa;
-      border-radius: 12px;
-      overflow: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      background: #1f2428;
-      padding: 20px 0;
-      text-align: center;
-      color: #00b0ff;
-      font-size: 36px;
-      font-weight: bold;
-      text-shadow: 0 0 12px rgba(0,176,255,0.35);
+    header{
+      background:#1f2428;
+      padding:20px 0;
+      text-align:center;
+      color:#fff;
       position: relative;
+      max-width:1200px;
+      margin: 0 auto;
+    }
+    header h1{
+      font-size:36px;
+      margin:0;
+      font-weight:bold;
+      color:#00b0ff;
+      text-shadow:0 0 12px rgba(0,176,255,0.35);
     }
     #toggleEditBtn {
       position: absolute;
@@ -50,16 +54,19 @@
     #toggleEditBtn:hover {
       background:#007acc;
     }
-    .container {
-      flex: 1;
-      padding: 12px 24px 24px;
-      overflow-y: auto;
+    .container{
+      max-width:1000px;
+      margin:20px auto;
+      padding:0 12px;
+      box-sizing: border-box;
     }
+
     .top-actions {
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
     }
+
     .btn {
       border: none;
       color: #fff;
@@ -74,6 +81,7 @@
     .btn:active {
       transform: scale(0.95);
     }
+
     .btn.facebook {
       background-color: #1877F2;
       box-shadow: 0 8px 20px rgba(24, 119, 242, 0.6);
@@ -83,6 +91,7 @@
       background-color: #145dbf;
       box-shadow: 0 8px 30px rgba(20, 93, 191, 0.8);
     }
+
     .btn.instagram {
       background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
       box-shadow: 0 8px 20px rgba(204, 24, 136, 0.6);
@@ -92,24 +101,25 @@
       filter: brightness(1.1);
       box-shadow: 0 8px 30px rgba(188, 24, 136, 0.8);
     }
-    .new-post {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 8px 30px rgba(0,153,255,0.03);
+
+    .new-post{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:8px;
+      padding:16px;
+      margin-bottom:20px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 8px 30px rgba(0,153,255,0.03);
     }
-    .new-post input[type=text], .new-post textarea {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0;
-      border-radius: 6px;
-      border: none;
-      font-size: 14px;
-      background: rgba(255,255,255,0.02);
-      color: #fff;
-      resize: vertical;
+    .new-post input[type=text], .new-post textarea{
+      width:100%;
+      padding:8px;
+      margin:5px 0;
+      border-radius:6px;
+      border:none;
+      font-size:14px;
+      background:rgba(255,255,255,0.02);
+      color:#fff;
+      box-sizing: border-box;
     }
     .file-input-wrapper {
       position: relative;
@@ -144,6 +154,7 @@
       font-size: 14px;
       color: #66e0ff;
       min-height: 18px;
+      word-break: break-all;
     }
     .new-post button {
       background-color: #0099ff;
@@ -160,82 +171,56 @@
     .new-post button:hover {
       background-color: #007acc;
     }
-    .post {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(255,255,255,0.03);
-      position: relative;
+    .post{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:8px;
+      padding:16px;
+      margin-bottom:16px;
+      border:1px solid rgba(255,255,255,0.03);
     }
-    .post h3 {
-      margin-top: 0;
+    .post h3{
+      margin-top:0;
+      margin-bottom:8px;
+      color:#00b0ff;
+      text-shadow: 0 0 6px #00b0ff99;
     }
-    .post img, .post video {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-top: 10px;
+    .post img, .post video{
+      max-width:100%;
+      border-radius:8px;
     }
-    .interactions {
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .interactions{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
     }
-    .like-btn, .comment-btn {
-      background: none;
-      border: none;
-      color: #00b0ff;
-      cursor: pointer;
-      font-size: 14px;
+    .like-btn, .comment-btn{
+      background:none;
+      border:none;
+      color:#00b0ff;
+      cursor:pointer;
+      font-size:14px;
     }
-    .like-btn.liked {
-      color: #66e0ff;
+    .like-btn.liked{color:#66e0ff;}
+    .comments{
+      margin-top:10px;
     }
-    .comments {
-      margin-top: 10px;
-      display: none;
-    }
-    .comments input[type=text] {
-      width: 100%;
-      padding: 6px 8px;
-      border-radius: 6px;
-      border: none;
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-size: 14px;
-      margin-bottom: 6px;
-      box-sizing: border-box;
-    }
-    .comment-list .comment {
-      background: rgba(255,255,255,0.02);
-      padding: 6px;
-      border-radius: 6px;
-      margin-bottom: 4px;
-      font-size: 14px;
+    .comment{
+      background:rgba(255,255,255,0.02);
+      padding:6px;
+      border-radius:6px;
+      margin-bottom:4px;
+      font-size:14px;
       word-break: break-word;
     }
-    footer {
-      margin-top: 12px;
-      text-align: center;
-      font-size: 14px;
-      color: #ccc;
-      padding-bottom: 10px;
+    .comment strong {
+      color: #00b0ff;
     }
-    /* أزرار تعديل وحذف صغيرة */
-    button.edit-post-btn, button.delete-post-btn, button.edit-comment-btn, button.delete-comment-btn {
-      margin-left: 6px;
-      font-size: 12px;
-      cursor: pointer;
-      background: #0099ff;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      padding: 4px 8px;
-      transition: background-color 0.3s ease;
-    }
-    button.edit-post-btn:hover, button.delete-post-btn:hover, button.edit-comment-btn:hover, button.delete-comment-btn:hover {
-      background: #007acc;
+    footer{
+      margin-top:20px;
+      text-align:center;
+      font-size:14px;
+      color:#ccc;
     }
     #loginModal {
       display: none;
@@ -305,40 +290,56 @@
       display: none;
       text-align: center;
     }
+
+    /* أزرار تعديل وحذف */
+    .edit-post-btn, .delete-post-btn,
+    .edit-comment-btn, .delete-comment-btn {
+      background-color: #007acc;
+      color: #fff;
+      border: none;
+      margin-left: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background-color 0.3s ease;
+    }
+    .edit-post-btn:hover, .delete-post-btn:hover,
+    .edit-comment-btn:hover, .delete-comment-btn:hover {
+      background-color: #005a99;
+    }
   </style>
 </head>
 <body>
-  <div id="mainContainer">
-    <header>
-      Alhashimia
-      <button id="toggleEditBtn" onclick="toggleEdit()">تبديل وضع التحرير</button>
-    </header>
-    <div class="container">
-      <div class="top-actions">
-        <button class="btn facebook" onclick="window.open('https://www.facebook.com/share/1CKLUMEt6q/','_blank')">فيسبوك</button>
-        <button class="btn instagram" onclick="window.open('https://www.instagram.com/a1hashmya?igsh=MTBsNGlyb201bTkxeQ%3D%3D','_blank')">إنستغرام</button>
-      </div>
-      
-      <div class="new-post" id="editor" style="display:none;">
-        <h3>إنشاء منشور جديد</h3>
-        <input type="text" id="title" placeholder="عنوان المنشور" />
-        <textarea rows="4" id="description" placeholder="اكتب وصف المنشور..."></textarea>
-        
-        <div class="file-input-wrapper">
-          <button type="button" onclick="document.getElementById('media').click()">اختر ملفا</button>
-          <input type="file" id="media" accept="image/*,video/*" />
-        </div>
-        <div class="selected-file" id="selectedFileName"></div>
-        
-        <button class="btn" onclick="addPost()">نشر</button>
-      </div>
-      
-      <div id="posts"></div>
+  <header>
+    <h1>Alhashimia</h1>
+    <button id="toggleEditBtn" onclick="toggleEdit()">تبديل وضع التحرير</button>
+  </header>
+  <div class="container">
+    <div class="top-actions">
+      <button class="btn facebook" onclick="window.open('https://www.facebook.com/share/1CKLUMEt6q/','_blank')">فيسبوك</button>
+      <button class="btn instagram" onclick="window.open('https://www.instagram.com/a1hashmya?igsh=MTBsNGlyb201bTkxeQ%3D%3D','_blank')">إنستغرام</button>
     </div>
-    <footer>
-      &copy; 2025 Alhashimia
-    </footer>
+    
+    <div class="new-post" id="editor" style="display:none;">
+      <h3>إنشاء منشور جديد</h3>
+      <input type="text" id="title" placeholder="عنوان المنشور" />
+      <textarea rows="4" id="description" placeholder="اكتب وصف المنشور..."></textarea>
+      
+      <div class="file-input-wrapper">
+        <button type="button" onclick="document.getElementById('media').click()">اختر ملفا</button>
+        <input type="file" id="media" accept="image/*,video/*" />
+      </div>
+      <div class="selected-file" id="selectedFileName"></div>
+      
+      <button class="btn" onclick="addPost()">نشر</button>
+    </div>
+    
+    <div id="posts"></div>
   </div>
+  <footer>
+    &copy; 2025 Alhashimia
+  </footer>
 
   <div id="loginModal">
     <div id="loginModalContent">
@@ -353,7 +354,7 @@
 
   <script>
     let isEditMode = false;
-
+    
     const fileInput = document.getElementById('media');
     const selectedFileName = document.getElementById('selectedFileName');
     const editor = document.getElementById('editor');
@@ -373,11 +374,9 @@
     });
 
     window.onload = function(){
-      if(localStorage.getItem('isLoggedIn') === 'true'){
-        isEditMode = true;
-        editor.style.display = 'block';
-        toggleBtn.textContent = 'إغلاق وضع التحرير';
-      }
+      isEditMode = false; // يبدأ دائماً بوضع عدم التحرير
+      editor.style.display = 'none';
+      toggleBtn.textContent = 'تبديل وضع التحرير';
       loadPosts();
     };
 
@@ -391,13 +390,12 @@
     function checkLogin(){
       const username = usernameInput.value.trim();
       const password = passwordInput.value.trim();
-
+      
       if(username === 'Alhashimia' && password === 'wahu alealiu aleazim 4'){
         isEditMode = true;
         editor.style.display = 'block';
         toggleBtn.textContent = 'إغلاق وضع التحرير';
         loginModal.style.display = 'none';
-        localStorage.setItem('isLoggedIn', 'true');
         loadPosts();
       } else {
         loginError.style.display = 'block';
@@ -415,7 +413,6 @@
         isEditMode = false;
         editor.style.display = 'none';
         toggleBtn.textContent = 'تبديل وضع التحرير';
-        localStorage.removeItem('isLoggedIn');
         loadPosts();
       } else {
         showLoginModal();
@@ -436,30 +433,29 @@
 
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
 
-      const newPost = {
+      let newPost = {
         title,
         desc,
-        media: null,
-        mediaType: null,
         likes: 0,
         comments: []
       };
 
       if(file){
-        const url = URL.createObjectURL(file);
-        newPost.media = url;
-        newPost.mediaType = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : null;
+        newPost.media = {
+          name: file.name,
+          type: file.type,
+          url: URL.createObjectURL(file)
+        };
       }
 
       posts.unshift(newPost);
       localStorage.setItem('posts', JSON.stringify(posts));
+      loadPosts();
 
       document.getElementById('title').value = '';
       document.getElementById('description').value = '';
       fileInput.value = '';
       selectedFileName.textContent = '';
-
-      loadPosts();
     }
 
     function loadPosts(){
@@ -474,24 +470,23 @@
         if(post.desc) postDiv.innerHTML += `<p>${escapeHtml(post.desc)}</p>`;
 
         if(post.media){
-          if(post.mediaType === 'image'){
-            postDiv.innerHTML += `<img src="${post.media}" alt="media" />`;
-          } else if(post.mediaType === 'video'){
-            postDiv.innerHTML += `<video controls src="${post.media}"></video>`;
+          if(post.media.type.startsWith('image/')){
+            postDiv.innerHTML += `<img src="${post.media.url}" alt="${escapeHtml(post.media.name)}" />`;
+          } else if(post.media.type.startsWith('video/')){
+            postDiv.innerHTML += `<video controls src="${post.media.url}"></video>`;
           }
         }
 
         const interactions = document.createElement('div');
         interactions.className = 'interactions';
         interactions.innerHTML = `
-          <button class="like-btn ${post.likes > 0 ? 'liked' : ''}" onclick="toggleLike(this, ${index})">👍 <span class="like-count">${post.likes}</span></button>
+          <button class="like-btn${post.liked ? ' liked' : ''}" onclick="toggleLike(this, ${index})">👍 <span class="like-count">${post.likes}</span></button>
           <button class="comment-btn" onclick="toggleCommentBox(this)">💬 <span class="comment-count">${post.comments.length}</span></button>
         `;
         postDiv.appendChild(interactions);
 
         const commentsDiv = document.createElement('div');
         commentsDiv.className = 'comments';
-
         commentsDiv.style.display = 'none';
         commentsDiv.innerHTML = `
           <input type='text' placeholder='أضف تعليق...' data-postid='${index}' onkeydown="if(event.key==='Enter'){addComment(this)}" />
@@ -504,43 +499,40 @@
           const cmtDiv = document.createElement('div');
           cmtDiv.className = 'comment';
 
-          // اسم صاحب التعليق مع استثناء المحرر
           let commenterName = cmt.commenter || 'مجهول';
-          if(commenterName.toLowerCase().includes('alhashimia')) commenterName = 'Alhashimia';
-
+          if(commenterName === 'Alhashimia') commenterName = '<strong>Alhashimia</strong>';
           cmtDiv.innerHTML = `<strong>${escapeHtml(commenterName)}:</strong> ${escapeHtml(cmt.text)}`;
 
-          // أزرار تعديل وحذف للتعليقات فقط في وضع التحرير
           if(isEditMode){
-            const editCmtBtn = document.createElement('button');
-            editCmtBtn.className = 'edit-comment-btn';
-            editCmtBtn.textContent = 'تعديل';
-            editCmtBtn.onclick = () => editComment(index, cIndex);
-            cmtDiv.appendChild(editCmtBtn);
+            // أزرار تعديل وحذف تعليق
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'تعديل';
+            editBtn.className = 'edit-comment-btn';
+            editBtn.onclick = () => editComment(index, cIndex);
+            cmtDiv.appendChild(editBtn);
 
-            const delCmtBtn = document.createElement('button');
-            delCmtBtn.className = 'delete-comment-btn';
-            delCmtBtn.textContent = 'حذف';
-            delCmtBtn.onclick = () => deleteComment(index, cIndex);
-            cmtDiv.appendChild(delCmtBtn);
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'حذف';
+            delBtn.className = 'delete-comment-btn';
+            delBtn.onclick = () => deleteComment(index, cIndex);
+            cmtDiv.appendChild(delBtn);
           }
-
           commentList.appendChild(cmtDiv);
         });
 
         postDiv.appendChild(commentsDiv);
 
-        // أزرار تعديل وحذف المنشور في وضع التحرير
         if(isEditMode){
+          // أزرار تعديل وحذف المنشور
           const editPostBtn = document.createElement('button');
-          editPostBtn.className = 'edit-post-btn';
           editPostBtn.textContent = 'تعديل المنشور';
+          editPostBtn.className = 'edit-post-btn';
           editPostBtn.onclick = () => editPost(index);
           postDiv.appendChild(editPostBtn);
 
           const deletePostBtn = document.createElement('button');
-          deletePostBtn.className = 'delete-post-btn';
           deletePostBtn.textContent = 'حذف المنشور';
+          deletePostBtn.className = 'delete-post-btn';
           deletePostBtn.onclick = () => deletePost(index);
           postDiv.appendChild(deletePostBtn);
         }
@@ -551,15 +543,20 @@
 
     function toggleLike(btn, postIndex){
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      if(btn.classList.contains('liked')){
-        btn.classList.remove('liked');
-        posts[postIndex].likes = Math.max(0, posts[postIndex].likes - 1);
-      } else {
+      let post = posts[postIndex];
+
+      if(!post.liked){
+        post.likes++;
+        post.liked = true;
         btn.classList.add('liked');
-        posts[postIndex].likes++;
+      } else {
+        post.likes--;
+        post.liked = false;
+        btn.classList.remove('liked');
       }
+
+      btn.querySelector('.like-count').textContent = post.likes;
       localStorage.setItem('posts', JSON.stringify(posts));
-      loadPosts();
     }
 
     function toggleCommentBox(btn){
@@ -567,79 +564,64 @@
       commentsDiv.style.display = commentsDiv.style.display === 'none' ? 'block' : 'none';
     }
 
-    // إضافة تعليق مع طلب البريد
     function addComment(input){
       const text = input.value.trim();
       if(!text) return;
 
-      let commenter = prompt("أدخل بريد الجيميل الخاص بك ليظهر مع التعليق:");
-      if(!commenter) commenter = "مجهول";
-
-      if(commenter.toLowerCase().includes("alhashimia")){
-        commenter = "Alhashimia";
-      }
-
       let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const postIndex = parseInt(input.getAttribute('data-postid'));
+      const postId = parseInt(input.dataset.postid);
+      if(postId === undefined || postId < 0 || postId >= posts.length) return;
 
-      posts[postIndex].comments.push({ text, commenter });
+      // نستخدم اسم المعلق 'Alhashimia' فقط إذا وضع المحرر تعليقاً (في وضع التحرير)
+      let commenterName = isEditMode ? 'Alhashimia' : 'مجهول';
 
+      posts[postId].comments.push({ text, commenter: commenterName });
       localStorage.setItem('posts', JSON.stringify(posts));
+
       loadPosts();
     }
 
-    // تحرير المنشور
+    // دوال تعديل وحذف المنشورات
     function editPost(index){
-      let posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const post = posts[index];
-
-      const newTitle = prompt("عدل عنوان المنشور:", post.title || '');
+      const newTitle = prompt('تعديل عنوان المنشور:', post.title || '');
       if(newTitle === null) return; // إلغاء
-      const newDesc = prompt("عدل وصف المنشور:", post.desc || '');
+      const newDesc = prompt('تعديل وصف المنشور:', post.desc || '');
       if(newDesc === null) return; // إلغاء
-
-      posts[index].title = newTitle.trim();
-      posts[index].desc = newDesc.trim();
-
+      post.title = newTitle.trim();
+      post.desc = newDesc.trim();
+      posts[index] = post;
       localStorage.setItem('posts', JSON.stringify(posts));
       loadPosts();
     }
-
-    // حذف المنشور
     function deletePost(index){
-      if(confirm("هل أنت متأكد من حذف هذا المنشور؟")){
-        let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-        posts.splice(index,1);
-        localStorage.setItem('posts', JSON.stringify(posts));
-        loadPosts();
-      }
-    }
-
-    // تحرير التعليق
-    function editComment(postIndex, commentIndex){
-      let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const comment = posts[postIndex].comments[commentIndex];
-
-      const newText = prompt("عدل تعليقك:", comment.text);
-      if(newText === null) return; // إلغاء
-
-      posts[postIndex].comments[commentIndex].text = newText.trim();
-
+      if(!confirm('هل أنت متأكد من حذف المنشور؟')) return;
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.splice(index, 1);
       localStorage.setItem('posts', JSON.stringify(posts));
       loadPosts();
     }
 
-    // حذف التعليق
+    // دوال تعديل وحذف التعليقات
+    function editComment(postIndex, commentIndex){
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      const comment = posts[postIndex].comments[commentIndex];
+      const newText = prompt('تعديل التعليق:', comment.text || '');
+      if(newText === null) return;
+      posts[postIndex].comments[commentIndex].text = newText.trim();
+      localStorage.setItem('posts', JSON.stringify(posts));
+      loadPosts();
+    }
     function deleteComment(postIndex, commentIndex){
-      if(confirm("هل أنت متأكد من حذف هذا التعليق؟")){
-        let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-        posts[postIndex].comments.splice(commentIndex,1);
-        localStorage.setItem('posts', JSON.stringify(posts));
-        loadPosts();
-      }
+      if(!confirm('هل تريد حذف التعليق؟')) return;
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts[postIndex].comments.splice(commentIndex, 1);
+      localStorage.setItem('posts', JSON.stringify(posts));
+      loadPosts();
     }
 
-    // دالة لحماية النص من XSS
+    // دالة لحماية النص من HTML injection
     function escapeHtml(text) {
       const map = {
         '&': '&amp;',
